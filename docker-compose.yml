@@ -4,6 +4,21 @@ services:
 
 ### Applications Code Container #############################
 
+
+### MySQL Container #########################################
+    mysql:
+      build:
+        context: ./mysql
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      ports:
+        - "${MYSQL_PORT}:3306"
+      networks:
+        - backend
+
 ### Redis Container #########################################
     redis:
       build: ./redis
@@ -30,10 +45,3 @@ networks:
     driver: "bridge"
   backend:
     driver: "bridge"
-
-### Volumes Setup #############################################
-volumes:
-  mysql:
-    driver: "local"
-  redis:
-    driver: "local"
