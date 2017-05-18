@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+
+### Applications Code Container #############################
+
+### ElasticSearch Container #################################
+
+    elasticsearch:
+      build: ./elasticsearch
+      volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+      ports:
+        - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+        - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
+#      depends_on:
+#        - php-fpm
+      networks:
+        - frontend
+        - backend
+
+### Networks Setup ############################################
+
+networks:
+  frontend:
+    driver: "bridge"
+  backend:
+    driver: "bridge"
+
+### Volumes Setup #############################################
+
+volumes:
+  mysql:
+    driver: "local"
+  redis:
+    driver: "local"
+  elasticsearch-data:
+    driver: "local"
