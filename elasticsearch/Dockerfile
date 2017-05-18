@@ -2,7 +2,7 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.2
 
 # For advanced usage please check here https://www.elastic.co/guide/en/elasticsearch/reference/5.3/docker.html
 
-MAINTAINER Liu Yang <yangliuyu@163.com>
+MAINTAINER Liu Yang <yangliul@gmail.com>
 
 # install plugins
 RUN wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.3.2/elasticsearch-analysis-ik-5.3.2.zip -O analysis-ik.zip
