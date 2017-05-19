@@ -62,6 +62,15 @@ services:
       networks:
         - backend
 
+### PHP Worker Container #####################################
+    php-worker:
+      build:
+        context: ./php-worker
+      volumes_from:
+        - applications
+      networks:
+        - backend
+
 ### MySQL Container #########################################
     mysql:
       build:
