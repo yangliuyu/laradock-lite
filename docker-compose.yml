@@ -26,6 +26,21 @@ services:
         - frontend
         - backend
 
+### Workspace Utilities Container ###########################
+    workspace:
+      build:
+        context: ./workspace
+      volumes_from:
+        - applications
+      volumes:
+        - ./php-fpm/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      tty: true
+      networks:
+        - frontend
+        - backend
+
 ### PHP-FPM Container #######################################
 
     php-fpm:
@@ -38,8 +53,8 @@ services:
         - ./php-fpm/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       expose:
         - "9000"
-#      depends_on:
-#        - workspace
+      depends_on:
+        - workspace
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
