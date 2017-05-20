@@ -1,41 +1,19 @@
-#
-#--------------------------------------------------------------------------
-# Image Setup
-#--------------------------------------------------------------------------
-#
-# To take a look at the'php-worker' base Image, visit its DockerHub page
-#    https://hub.docker.com/r/nielsvdoorn/laravel-supervisor/
-#
+FROM php:7.1.5-alpine
 
-FROM nielsvdoorn/laravel-supervisor
+MAINTAINER Liu Yang <yangliul@gmail.com>
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 
-#
-#--------------------------------------------------------------------------
-# Optional Supervisord Configuration
-#--------------------------------------------------------------------------
-#
-# Modify the ./supervisor.conf file to match your App's requirements.
-# Make sure you rebuild your container with every change.
-#
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN apk update --no-cache \
+    && apk upgrade --no-cache \
+    && apk add --no-cache build-base autoconf libmcrypt-dev supervisor
 
-#
-#--------------------------------------------------------------------------
-# Optional Software's Installation
-#--------------------------------------------------------------------------
-#
-# If you need to modify this image, feel free to do it right here.
-#
-	# -- Your awesome modifications go here -- #
+RUN docker-php-ext-install pdo_mysql mcrypt
 
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 
-#
-#--------------------------------------------------------------------------
-# Final Touch
-#--------------------------------------------------------------------------
-#
+RUN apk del build-base autoconf
 
-RUN rm -r /var/lib/apt/lists/*
-WORKDIR /etc/supervisor/conf.d/
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf", "-e", "debug"]

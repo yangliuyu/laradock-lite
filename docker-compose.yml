@@ -68,6 +68,8 @@ services:
         context: ./php-worker
       volumes_from:
         - applications
+      volumes:
+        - ./php-worker/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       networks:
         - backend
 
