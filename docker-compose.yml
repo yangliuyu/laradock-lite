@@ -10,8 +10,7 @@ services:
 
 ### Nginx Server Container ##################################
     nginx:
-      build:
-        context: ./nginx
+      image: laradocklite/nginx:latest
       volumes_from:
         - applications
       volumes:
@@ -28,8 +27,7 @@ services:
 
 ### Workspace Utilities Container ###########################
     workspace:
-      build:
-        context: ./workspace
+      image: laradocklite/workspace:latest
       volumes_from:
         - applications
       volumes:
@@ -38,14 +36,11 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       tty: true
       networks:
-        - frontend
         - backend
 
 ### PHP-FPM Container #######################################
-
     php-fpm:
-      build:
-        context: ./php-fpm
+      image: laradocklite/php-fpm:latest
       volumes_from:
         - applications
       volumes:
@@ -54,7 +49,10 @@ services:
       expose:
         - "9000"
       depends_on:
-        - workspace
+        - php-worker
+        - mysql
+        - redis
+        - elasticsearch
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -64,8 +62,7 @@ services:
 
 ### PHP Worker Container #####################################
     php-worker:
-      build:
-        context: ./php-worker
+      image: laradocklite/php-worker:latest
       volumes_from:
         - applications
       volumes:
@@ -75,8 +72,7 @@ services:
 
 ### MySQL Container #########################################
     mysql:
-      build:
-        context: ./mysql
+      image: laradocklite/mysql:latest
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
@@ -89,7 +85,7 @@ services:
 
 ### Redis Container #########################################
     redis:
-      build: ./redis
+      image: laradocklite/redis:latest
       ports:
         - "6379:6379"
       networks:
@@ -97,14 +93,11 @@ services:
 
 ### ElasticSearch Container #################################
     elasticsearch:
-      build: ./elasticsearch
+      image: laradocklite/elasticsearch:latest
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
-#      depends_on:
-#        - php-fpm
       networks:
-        - frontend
         - backend
 
 ### Networks Setup ############################################
