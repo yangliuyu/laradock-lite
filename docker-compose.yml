@@ -32,6 +32,7 @@ services:
         - applications
       volumes:
         - ./php-fpm/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+        - ./workspace/config.php:/root/.config/psysh/config.php
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       tty: true

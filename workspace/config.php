@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'useReadline' => false,
+];
