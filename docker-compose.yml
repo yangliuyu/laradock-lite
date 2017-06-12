@@ -94,6 +94,7 @@ services:
 
 ### ElasticSearch Container #################################
     elasticsearch:
+      user: elasticsearch
       image: laradocklite/elasticsearch:latest
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
