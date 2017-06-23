@@ -102,6 +102,15 @@ services:
       networks:
         - backend
 
+    kibana:
+      image: laradocklite/kibana:latest
+      depends_on:
+        - elasticsearch
+      ports:
+        - "5601:5601"
+      networks:
+        - backend
+
 ### Networks Setup ############################################
 networks:
   frontend:
