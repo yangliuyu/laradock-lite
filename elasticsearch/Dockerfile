@@ -1,6 +1,6 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:5.4.1
+FROM docker.elastic.co/elasticsearch/elasticsearch:5.4.2
 
-# For advanced usage please check here https://www.elastic.co/guide/en/elasticsearch/reference/5.3/docker.html
+# For advanced usage please check here https://www.elastic.co/guide/en/elasticsearch/reference/5.4/docker.html
 
 MAINTAINER Liu Yang <yangliul@gmail.com>
 
