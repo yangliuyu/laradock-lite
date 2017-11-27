@@ -1,4 +1,4 @@
-FROM php:7.1.5-alpine
+FROM php:7.1.11-alpine
 
 MAINTAINER Liu Yang <yangliul@gmail.com>
 

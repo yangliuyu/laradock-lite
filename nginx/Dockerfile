@@ -1,4 +1,4 @@
-FROM nginx:1.12.0-alpine
+FROM nginx:1.12.2-alpine
 
 MAINTAINER Liu Yang <yangliul@gmail.com>
 
